@@ -10,15 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_11_074016) do
+ActiveRecord::Schema.define(version: 2020_12_11_142403) do
 
   create_table "guests", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
+    t.string "guest_name"
+    t.string "guest_email"
     t.integer "restarent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "time"
+    t.string "guest_count"
     t.index ["restarent_id"], name: "index_guests_on_restarent_id"
+  end
+
+  create_table "reservations", force: :cascade do |t|
+    t.string "reservation_time"
+    t.integer "guest_count"
+    t.integer "restarent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restarent_id"], name: "index_reservations_on_restarent_id"
   end
 
   create_table "restarents", force: :cascade do |t|

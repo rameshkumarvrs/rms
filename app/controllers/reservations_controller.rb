@@ -1,5 +1,7 @@
 class ReservationsController < ApplicationController
 	skip_before_action :verify_authenticity_token  
+
+	# post - localhost:3000/reservations
 	def create
 		table_names = ["couple", "Join Family"]
 		#byebug
@@ -21,8 +23,22 @@ class ReservationsController < ApplicationController
 		  	if params[:guest_count].between?(min_count, max_count)
 			 	 final_value["guest_name"] = params[:guest_name]
 			 	 final_value["guestcount"] = params[:guest_count]
+			 	 @reservation_details = Reservation.new(reserve_values)
+			 	 if @reservation_details.save
+			 	 	@guest_details = Guest.new
+			 	 	@guest_details.guest_name = params[:guest_name]
+			 	 	@guest_details.guest_email = params[:guest_email]
+			 	 	@guest_details.restarent_id = params[:restarent_id]
+			 	 	@guest_details.time = params[:shift_time]
+			 	 	@guest_details.guest_count = params[:guest_count]
+			 	 	@guest_details.save
+			 	 	#byebug
+			 	 	  ExampleMailer.sample_email(@reservation_details).deliver
+			 	 	 puts "reservation done"
+			 	 else
+			 	 	 puts "some errors"
+			 	 end	
 			  else
-			 	 #final_value["guest_name"] = params[:guest_name]
 			 	 final_value["guestcount"] = "The value you enter the count is not applicable to this table"
 			  end	
 		else
@@ -34,4 +50,21 @@ class ReservationsController < ApplicationController
       format.json { render json: final_value, status: "200" }
 		 end	
 	end
+
+  def index
+  	
+  end
+
+	#private
+	 def reserve_params
+      params.require(:reservation).permit(:name, :email, :guest_name, :guest_email, :rest_name, :rest_email, :guestcount, :phone)
+   end
+
+   def reserve_values
+   	  params.require(:reservation).permit(:restarent_id, :guestcount, )
+   end
+
+   #def guest_params
+   	# params.require(:reservation).permit(:restarent_id, :guest_name, :guest_email )
+   #end
 end
