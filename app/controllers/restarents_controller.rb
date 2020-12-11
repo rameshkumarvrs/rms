@@ -1,0 +1,2 @@
+class RestarentsController < ApplicationController
+end
