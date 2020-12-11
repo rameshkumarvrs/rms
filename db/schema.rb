@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_12_10_183728) do
+ActiveRecord::Schema.define(version: 2020_12_11_074016) do
 
   create_table "guests", force: :cascade do |t|
     t.string "name"
@@ -30,6 +30,26 @@ ActiveRecord::Schema.define(version: 2020_12_10_183728) do
     t.integer "max"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "shift_times", force: :cascade do |t|
+    t.string "name"
+    t.string "strat_time"
+    t.string "end_time"
+    t.integer "restarent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restarent_id"], name: "index_shift_times_on_restarent_id"
+  end
+
+  create_table "table_names", force: :cascade do |t|
+    t.string "name"
+    t.integer "min_count"
+    t.integer "max_count"
+    t.integer "restarent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restarent_id"], name: "index_table_names_on_restarent_id"
   end
 
 end
