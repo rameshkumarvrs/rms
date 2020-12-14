@@ -74,10 +74,28 @@ class ReservationsController < ApplicationController
        respond_to do |format|
       format.json { render json: @reservation_update, status: "200" }
 		 end
-  	#else
-  	
   	end	
-  	#byebug 
+  end
+
+  def guest_search
+  	 if params[:guest_name].present?
+      @guest_search = Guest.search(params[:guest_name])
+     else
+     @guest_search = "No Results Found" 
+     end
+
+     respond_to do |format|
+      format.json { render json: @guest_search, status: "200" }
+		 end
+  end
+
+  # localhost:3000/filter_restarent_tables?name=VrsFoodHeaven&tablename=couple
+  def filter_restarent_tables
+  	 
+     @guest_search = Restarent.search(params[:name], params[:table_name])
+     respond_to do |format|
+      format.json { render json: @guest_search, status: "200" }
+		 end
   end
 
 	#private
