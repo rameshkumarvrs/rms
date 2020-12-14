@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_12_11_142403) do
     t.datetime "updated_at", null: false
     t.string "time"
     t.string "guest_count"
+    t.string "table_name"
     t.index ["restarent_id"], name: "index_guests_on_restarent_id"
   end
 

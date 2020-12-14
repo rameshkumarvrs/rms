@@ -24,6 +24,8 @@ class ReservationsController < ApplicationController
 			 	 final_value["guest_name"] = params[:guest_name]
 			 	 final_value["guestcount"] = params[:guest_count]
 			 	 @reservation_details = Reservation.new(reserve_values)
+			 	 @reservation_details.guest_count = params["guest_count"]
+			 	 @reservation_details.reservation_time = params["shift_time"]
 			 	 if @reservation_details.save
 			 	 	@guest_details = Guest.new
 			 	 	@guest_details.guest_name = params[:guest_name]
@@ -51,8 +53,31 @@ class ReservationsController < ApplicationController
 		 end	
 	end
 
-  def index
+  def get_reservation_list
+  	reservation = Reservation.where(restarent_id: params[:id]).last
+  	#byebug
+  	reservation_list = reservation.get_list
+  	respond_to do |format|
+      format.json { render json: reservation_list, status: "200" }
+		 end	
+  end
+  
+  # localhost:3000//reservations/:id
+  def update
+  	@reservation_update = Reservation.find(params[:id])
+  	@old_reservation_time = @reservation_update.reservation_time
+  	@old_guest_count = @reservation_update.guest_count 
+  	@reservation_update.update(guest_count: params[:guest_count], reservation_time: params[:shift_time])
+  	if @reservation_update
+  		#byebug
+  		ExampleMailer.update_reservation(@old_reservation_time,@old_guest_count,@reservation_update).deliver
+       respond_to do |format|
+      format.json { render json: @reservation_update, status: "200" }
+		 end
+  	#else
   	
+  	end	
+  	#byebug 
   end
 
 	#private

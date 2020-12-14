@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hi <%= @user.restarent.guests.last.guest_name %></h1>
+    <p>
+      you register the <%=@user.restarent.name%> at <%=@user.restarent.guests.last.time%> am
+      you register old time <%=@old_time%> is changed to <%=@user.reservation_time%> and your guest count <%=@old_count%> is update to <%=@user.guest_count%>
+    </p>
+  </body>
+</html>
